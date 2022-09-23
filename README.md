@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/mikecodejs/fifa-trade-brasil-api">
-    <img src="./docs/assets/logo.png" alt="Fifa Trade Brasil" width="450" height="auto" style="max-width: 100%;" />
+    <img src="./docs/assets/logo.png" alt="Fifa Trade Brasil" width="200" height="auto" style="max-width: 100%;" />
   </a>
 
   <h3 align="center">FIFA TRADE BRASIL 🕹️</h3>

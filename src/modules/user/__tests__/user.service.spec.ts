@@ -145,6 +145,27 @@ describe("UserService", () => {
 			});
 		});
 
+		it("should fail when status is false", async () => {
+			const user = new UserBuilder(true).build();
+
+			prismaMock.user.findUnique.mockResolvedValue({
+				...user,
+				status: false,
+			});
+
+			await UserService.login({
+				email: user.email,
+				password: "test-true",
+			}).catch((error) => {
+				expect(error.message).toEqual(
+					JSON.stringify({
+						message: "User disabled, contact your administrator",
+						status: 401,
+					}),
+				);
+			});
+		});
+
 		it("should log the user", async () => {
 			const user = new UserBuilder(true).build();
 			prismaMock.user.findUnique.mockResolvedValue(user);

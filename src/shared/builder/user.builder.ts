@@ -8,6 +8,7 @@ export class UserBuilder {
 	private name: string;
 	private email: string;
 	private password: string;
+	private status: boolean;
 	private acceptTermsAndConditions: boolean;
 	private createdAt: Date;
 	private updatedAt: Date;
@@ -21,6 +22,7 @@ export class UserBuilder {
 		this.name = faker.name.fullName();
 		this.email = faker.internet.email();
 		this.password = password;
+		this.status = true;
 		this.acceptTermsAndConditions = true;
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
@@ -32,6 +34,7 @@ export class UserBuilder {
 			name: this.name,
 			email: this.email,
 			password: this.password,
+			status: this.status,
 			acceptTermsAndConditions: this.acceptTermsAndConditions,
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,

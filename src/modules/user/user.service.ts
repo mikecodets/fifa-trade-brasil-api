@@ -103,6 +103,15 @@ export class UserService {
 			);
 		}
 
+		if (!isUser.status) {
+			throw new Error(
+				HttpErrorHandler.targetError({
+					message: "User disabled, contact your administrator",
+					status: 401,
+				}),
+			);
+		}
+
 		const token = sign(
 			{
 				userId: isUser.id,

@@ -1,7 +1,7 @@
 {
 	"name": "fifa-trade-brasil-api",
 	"version": "1.0.0",
-	"main": "./packages/ms-gateway/src/app.ts",
+	"main": "./build/app.js",
 	"repository": "https://github.com/mikecodejs/fifa-trade-brasil-api.git",
 	"author": "Maykel Figueiredo <mikerxvxl@gmail.com>",
 	"license": "MIT",
@@ -11,7 +11,7 @@
 		"lint:ci": "eslint . --quiet",
 		"lint:fix": "eslint --fix",
 		"prepare": "husky install",
-		"start": "node ./dist/app.js",
+		"start": "node ./build/app.js",
 		"test": "jest"
 	},
 	"dependencies": {

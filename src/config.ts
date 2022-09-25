@@ -1,6 +1,8 @@
 import "dotenv/config";
-import { cleanEnv, port } from "envalid";
+import { cleanEnv, num, port, str } from "envalid";
 
-export const { API_PORT } = cleanEnv(process.env, {
-	API_PORT: port(),
+export const { PORT, JWT_SECRET, BCRYPT_SALT } = cleanEnv(process.env, {
+	PORT: port(),
+	JWT_SECRET: str(),
+	BCRYPT_SALT: num(),
 });

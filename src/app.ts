@@ -3,7 +3,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import morgan from "morgan";
 import path from "path";
-import { API_PORT } from "./config";
+import { PORT } from "./config";
 import {
 	HttpErrorHandler,
 	HttpErrorHandlerType,
@@ -17,7 +17,7 @@ export class App {
 
 	constructor() {
 		this.app = express();
-		this.port = API_PORT;
+		this.port = PORT;
 		this.routes = new Routes();
 
 		this.app.use(

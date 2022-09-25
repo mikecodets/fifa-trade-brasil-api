@@ -10,3 +10,70 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Address {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  zipCode       String
+  street        String
+  numberOfHouse String
+  complement    String
+  neighborhood  String
+  city          String
+  state         String
+  country       String
+  fullAddress   String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  Customer      Customer[]
+}
+
+model Customer {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  apoiaseID   String    @unique
+  supporter   Supporter @relation(fields: [supporterId], references: [id])
+  payment     Payment   @relation(fields: [paymentId], references: [id])
+  address     Address   @relation(fields: [addressId], references: [id])
+  shipping    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  supporterId String    @db.ObjectId
+  paymentId   String    @db.ObjectId
+  addressId   String    @db.ObjectId
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      String?   @db.ObjectId
+}
+
+model Payment {
+  id                String     @id @default(auto()) @map("_id") @db.ObjectId
+  amount            Float
+  rewardTrack       String
+  supportCompetence String
+  statusPayment     String
+  statusDescription String
+  paymentMethod     String
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  Customer          Customer[]
+}
+
+model Supporter {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  cpfOrCnpj String
+  email     String
+  telephone String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Customer  Customer[]
+}
+
+model User {
+  id                       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name                     String
+  email                    String     @unique
+  password                 String
+  acceptTermsAndConditions Boolean
+  customer                 Customer[]
+  createdAt                DateTime   @default(now())
+  updatedAt                DateTime   @updatedAt
+}

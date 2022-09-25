@@ -1,0 +1,30 @@
+import { Customer } from "@prisma/client";
+import { Request, Response } from "express";
+import { CSVService } from "./csv.service";
+
+export class CSVController {
+	public static async findMany(
+		request: Request,
+		response: Response,
+	): Promise<Response<Customer[]>> {
+		const { take, skip } = request.query;
+
+		const customers = await CSVService.findMany(Number(take), Number(skip));
+
+		return response.status(200).json({
+			message: "🎉 customers returned successfully",
+			customers,
+		});
+	}
+
+	public static async upload(
+		request: Request,
+		response: Response,
+	): Promise<Response<void>> {
+		await CSVService.upload(request.file, request.userId);
+
+		return response.status(200).json({
+			message: "🎉 uploaded successfully",
+		});
+	}
+}

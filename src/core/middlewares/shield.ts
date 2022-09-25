@@ -41,4 +41,28 @@ export class Auth {
 			});
 		}
 	}
+
+	public static async validateToken(request: Request, response: Response) {
+		const { token } = request.params;
+
+		if (!token) {
+			return response.status(400).json({ message: "Token not found" });
+		}
+
+		try {
+			const decode = verify(token, JWT_SECRET);
+
+			if (decode) {
+				return response.status(200).json({
+					message: "🎉 user authenticated",
+					status: true,
+				});
+			}
+		} catch (error) {
+			return response.status(401).json({
+				error: "Authentication Failed",
+				status: false,
+			});
+		}
+	}
 }

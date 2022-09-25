@@ -11,6 +11,8 @@ export class Routes {
 	constructor() {
 		this.firstVersion = Router();
 
+		this.firstVersion.get("/validate-token/:token", Auth.validateToken);
+
 		this.firstVersion.post("/user", UserController.create);
 		this.firstVersion.post("/user/login", UserController.login);
 		this.firstVersion.get(

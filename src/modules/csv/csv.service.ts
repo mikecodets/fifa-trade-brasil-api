@@ -4,10 +4,7 @@ import { HttpErrorHandler } from "../../core/errors/httpErrorHandler";
 import { DataConverter } from "../../helpers/dataConverter";
 
 export class CSVService {
-	public static async findMany(
-		take?: number,
-		skip?: number,
-	): Promise<Customer[]> {
+	public static async findMany(): Promise<Customer[]> {
 		return await prisma.customer
 			.findMany({
 				include: {
@@ -15,8 +12,6 @@ export class CSVService {
 					address: true,
 					payment: true,
 				},
-				take: take ? take : 10,
-				skip: skip ? skip : 0,
 			})
 			.catch((err) => {
 				throw new Error(

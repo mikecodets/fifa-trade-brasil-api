@@ -24,18 +24,6 @@ describe("CSVService", () => {
 			});
 		});
 
-		it("should support pagination", async () => {
-			const customers = Array(5)
-				.fill({})
-				.map(() => new CustomerBuilder().build());
-
-			prismaMock.customer.findMany.mockResolvedValue(customers);
-
-			const sut = await CSVService.findMany(5, 5);
-
-			expect(sut).toHaveLength(customers.length);
-		});
-
 		it("should find many customers", async () => {
 			const customers = Array(5)
 				.fill({})

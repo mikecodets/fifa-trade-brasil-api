@@ -26,7 +26,7 @@ export class CSVFileBuilder {
 
 	constructor() {
 		this.id = faker.database.mongodbObjectId();
-		this.apoiador = faker.database.mongodbObjectId();
+		this.apoiador = faker.name.fullName();
 		this.cpfcnpj = faker.phone.number("###.###.###-##");
 		this.email = faker.internet.email();
 		this.telefone = faker.phone.number("+## #####-####");

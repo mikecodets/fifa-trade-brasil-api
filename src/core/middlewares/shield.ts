@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, verify } from "jsonwebtoken";
+import prisma from "../../client";
 import { JWT_SECRET } from "../../config";
 import { HttpErrorHandler } from "../errors/httpErrorHandler";
 
@@ -51,6 +52,22 @@ export class Auth {
 
 		try {
 			const decode = verify(token, JWT_SECRET);
+			const { userId } = decode as {
+				userId: string;
+			};
+
+			const isUser = await prisma.user.findUnique({
+				where: {
+					id: userId,
+				},
+			});
+
+			if (!isUser) {
+				return response.status(401).json({
+					error: "Authentication Failed",
+					status: false,
+				});
+			}
 
 			if (decode) {
 				return response.status(200).json({

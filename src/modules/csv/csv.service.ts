@@ -4,13 +4,17 @@ import { HttpErrorHandler } from "../../core/errors/httpErrorHandler";
 import { DataConverter } from "../../helpers/dataConverter";
 
 export class CSVService {
-	public static async findMany(): Promise<Customer[]> {
+	public static async findMany(userId: string): Promise<Customer[]> {
 		return await prisma.customer
 			.findMany({
+				where: {
+					userId,
+				},
 				include: {
 					supporter: true,
 					address: true,
 					payment: true,
+					User: true,
 				},
 			})
 			.catch((err) => {

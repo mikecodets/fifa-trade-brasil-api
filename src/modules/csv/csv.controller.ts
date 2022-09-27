@@ -7,7 +7,7 @@ export class CSVController {
 		request: Request,
 		response: Response,
 	): Promise<Response<Customer[]>> {
-		const customers = await CSVService.findMany();
+		const customers = await CSVService.findMany(request.userId);
 
 		return response.status(200).json({
 			message: "🎉 Customers returned successfully",

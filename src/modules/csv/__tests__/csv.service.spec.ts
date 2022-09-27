@@ -10,11 +10,13 @@ import { CSVService } from "../csv.service";
 describe("CSVService", () => {
 	describe("findMany", () => {
 		it("should fail when not returning customers", async () => {
+			const { id } = new UserBuilder().build();
+
 			prismaMock.customer.findMany.mockRejectedValue({
 				message: "failed to return customers",
 			});
 
-			await CSVService.findMany().catch((error) => {
+			await CSVService.findMany(id).catch((error) => {
 				expect(error.message).toEqual(
 					JSON.stringify({
 						message: "failed to return customers",
@@ -25,13 +27,15 @@ describe("CSVService", () => {
 		});
 
 		it("should find many customers", async () => {
+			const { id } = new UserBuilder().build();
+
 			const customers = Array(5)
 				.fill({})
 				.map(() => new CustomerBuilder().build());
 
 			prismaMock.customer.findMany.mockResolvedValue(customers);
 
-			const sut = await CSVService.findMany();
+			const sut = await CSVService.findMany(id);
 
 			expect(sut).toMatchObject(customers);
 		});

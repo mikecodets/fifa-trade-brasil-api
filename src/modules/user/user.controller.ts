@@ -11,7 +11,7 @@ export class UserController {
 		const user = await UserService.create(request.body);
 
 		return response.status(201).json({
-			message: "🎉 user created successfully",
+			message: "🎉 User created successfully",
 			user,
 		});
 	}
@@ -23,7 +23,7 @@ export class UserController {
 		const users = await UserService.findMany();
 
 		return response.status(200).json({
-			message: "🎉 users returned successfully",
+			message: "🎉 Users returned successfully",
 			users,
 		});
 	}
@@ -35,7 +35,7 @@ export class UserController {
 		const { user, token } = await UserService.login(request.body);
 
 		return response.status(200).json({
-			message: "🎉 user logged successfully",
+			message: "🎉 User logged successfully",
 			user,
 			token,
 		});

@@ -10,7 +10,7 @@ export class CSVController {
 		const customers = await CSVService.findMany();
 
 		return response.status(200).json({
-			message: "🎉 customers returned successfully",
+			message: "🎉 Customers returned successfully",
 			customers,
 		});
 	}
@@ -22,7 +22,7 @@ export class CSVController {
 		await CSVService.upload(request.file, request.userId);
 
 		return response.status(200).json({
-			message: "🎉 uploaded successfully",
+			message: "🎉 Uploaded successfully",
 		});
 	}
 }

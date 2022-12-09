@@ -17,12 +17,8 @@ describe("CSVService", () => {
 			});
 
 			await CSVService.findMany(id).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "failed to return customers",
-						status: 400,
-					}),
-				);
+				expect(error.message).toEqual("failed to return customers");
+				expect(error.status).toEqual(400);
 			});
 		});
 
@@ -56,12 +52,8 @@ describe("CSVService", () => {
 			});
 
 			await CSVService.upload(buffer, id).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "failed to upsert customers",
-						status: 400,
-					}),
-				);
+				expect(error.message).toEqual("failed to upsert customers");
+				expect(error.status).toEqual(400);
 			});
 		});
 

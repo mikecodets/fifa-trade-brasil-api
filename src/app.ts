@@ -4,11 +4,8 @@ import "express-async-errors";
 import morgan from "morgan";
 import path from "path";
 import { PORT } from "./config";
-import {
-	HttpErrorHandler,
-	HttpErrorHandlerType,
-} from "./core/errors/httpErrorHandler";
-import { Routes } from "./core/routes";
+import { Exception } from "./core/error/exception";
+import { Routes } from "./core/router";
 
 export class App {
 	public app: Application;
@@ -48,14 +45,13 @@ export class App {
 
 		this.app.use(
 			(
-				error: Error,
+				error: Exception,
 				_request: Request,
 				response: Response,
 				_next: NextFunction,
 			): Response<Error> => {
 				if (error instanceof Error) {
-					const { message, status }: HttpErrorHandlerType =
-						HttpErrorHandler.errorParser(error);
+					const { message, status }: Exception = error;
 
 					return response.status(status).json({
 						error: message,

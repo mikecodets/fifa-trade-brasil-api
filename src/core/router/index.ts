@@ -2,8 +2,8 @@ import { Router } from "express";
 import multer from "multer";
 import { CSVController } from "../../modules/csv/csv.controller";
 import { UserController } from "../../modules/user/user.controller";
-import { storage } from "../middlewares/multer";
-import { Auth } from "../middlewares/shield";
+import { storage } from "../middleware/multer";
+import { Auth } from "../middleware/shield";
 
 export class Routes {
 	public firstVersion: Router;

@@ -1,6 +1,6 @@
-import { Customer } from "@prisma/client";
+import { Address, Customer, Payment, Supporter } from "@prisma/client";
 import prisma from "../../client";
-import { HttpErrorHandler } from "../../core/errors/httpErrorHandler";
+import { Exception } from "../../core/error/exception";
 import { DataConverter } from "../../helpers/dataConverter";
 
 export class CSVService {
@@ -18,12 +18,7 @@ export class CSVService {
 				},
 			})
 			.catch((err) => {
-				throw new Error(
-					HttpErrorHandler.targetError({
-						message: err.message,
-						status: 400,
-					}),
-				);
+				throw new Exception(err.message, 400);
 			});
 	}
 
@@ -63,94 +58,92 @@ export class CSVService {
 			shipping,
 		}));
 
-		const createManyCustomers = customers.map(async (customer: any) => {
-			await prisma.customer.upsert({
-				where: {
-					apoiaseID: customer.apoiaseID,
+		const createManyCustomers = customers.map(
+			async (
+				customer: Customer & {
+					supporter: Supporter;
+					payment: Payment;
+					address: Address;
 				},
-				update: {
-					supporter: {
-						update: {
-							name: customer.supporter.name,
-							cpfOrCnpj: customer.supporter.cpfOrCnpj,
-							email: customer.supporter.email,
-							telephone: customer.supporter.telephone,
+			) => {
+				await prisma.customer.upsert({
+					where: {
+						apoiaseID: customer.apoiaseID,
+					},
+					update: {
+						supporter: {
+							update: customer.supporter,
+						},
+						payment: {
+							update: {
+								amount: customer.payment.amount,
+								rewardTrack: customer.payment.rewardTrack,
+								supportCompetence: customer.payment.supportCompetence,
+								statusPayment: customer.payment.statusPayment,
+								statusDescription: customer.payment.statusDescription,
+								paymentMethod: customer.payment.paymentMethod,
+							},
+						},
+						address: {
+							update: {
+								zipCode: customer.address.zipCode,
+								street: customer.address.street,
+								numberOfHouse: customer.address.numberOfHouse,
+								complement: customer.address.complement,
+								neighborhood: customer.address.neighborhood,
+								city: customer.address.city,
+								state: customer.address.state,
+								country: customer.address.country,
+								fullAddress: customer.address.fullAddress,
+							},
 						},
 					},
-					payment: {
-						update: {
-							amount: customer.payment.amount,
-							rewardTrack: customer.payment.rewardTrack,
-							supportCompetence: customer.payment.supportCompetence,
-							statusPayment: customer.payment.statusPayment,
-							statusDescription: customer.payment.statusDescription,
-							paymentMethod: customer.payment.paymentMethod,
+					create: {
+						apoiaseID: customer.apoiaseID,
+						supporter: {
+							create: {
+								name: customer.supporter.name,
+								cpfOrCnpj: customer.supporter.cpfOrCnpj,
+								email: customer.supporter.email,
+								telephone: customer.supporter.telephone,
+							},
+						},
+						payment: {
+							create: {
+								amount: customer.payment.amount,
+								rewardTrack: customer.payment.rewardTrack,
+								supportCompetence: customer.payment.supportCompetence,
+								statusPayment: customer.payment.statusPayment,
+								statusDescription: customer.payment.statusDescription,
+								paymentMethod: customer.payment.paymentMethod,
+							},
+						},
+						address: {
+							create: {
+								zipCode: customer.address.zipCode,
+								street: customer.address.street,
+								numberOfHouse: customer.address.numberOfHouse,
+								complement: customer.address.complement,
+								neighborhood: customer.address.neighborhood,
+								city: customer.address.city,
+								state: customer.address.state,
+								country: customer.address.country,
+								fullAddress: customer.address.fullAddress,
+							},
+						},
+						shipping: customer.shipping,
+						User: {
+							connect: {
+								id: userId,
+							},
 						},
 					},
-					address: {
-						update: {
-							zipCode: customer.address.zipCode,
-							street: customer.address.street,
-							numberOfHouse: customer.address.numberOfHouse,
-							complement: customer.address.complement,
-							neighborhood: customer.address.neighborhood,
-							city: customer.address.city,
-							state: customer.address.state,
-							country: customer.address.country,
-							fullAddress: customer.address.fullAddress,
-						},
-					},
-				},
-				create: {
-					apoiaseID: customer.apoiaseID,
-					supporter: {
-						create: {
-							name: customer.supporter.name,
-							cpfOrCnpj: customer.supporter.cpfOrCnpj,
-							email: customer.supporter.email,
-							telephone: customer.supporter.telephone,
-						},
-					},
-					payment: {
-						create: {
-							amount: customer.payment.amount,
-							rewardTrack: customer.payment.rewardTrack,
-							supportCompetence: customer.payment.supportCompetence,
-							statusPayment: customer.payment.statusPayment,
-							statusDescription: customer.payment.statusDescription,
-							paymentMethod: customer.payment.paymentMethod,
-						},
-					},
-					address: {
-						create: {
-							zipCode: customer.address.zipCode,
-							street: customer.address.street,
-							numberOfHouse: customer.address.numberOfHouse,
-							complement: customer.address.complement,
-							neighborhood: customer.address.neighborhood,
-							city: customer.address.city,
-							state: customer.address.state,
-							country: customer.address.country,
-							fullAddress: customer.address.fullAddress,
-						},
-					},
-					shipping: customer.shipping,
-					User: {
-						connect: {
-							id: userId,
-						},
-					},
-				},
-			});
-		});
+				});
+			},
+		);
 
 		await Promise.all(createManyCustomers).catch((err) => {
-			throw new Error(
-				HttpErrorHandler.targetError({
-					message: err.message,
-					status: 400,
-				}),
-			);
+			throw new Exception(err.message, 400);
 		});
 	}
 }

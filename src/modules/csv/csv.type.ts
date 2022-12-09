@@ -1,4 +1,4 @@
-export interface ICSVFile {
+export type ICSVFile = {
 	id: string;
 	apoiador: string;
 	cpfcnpj: string;
@@ -19,4 +19,4 @@ export interface ICSVFile {
 	uf: string;
 	pais: string;
 	enderecocompleto: string;
-}
+};

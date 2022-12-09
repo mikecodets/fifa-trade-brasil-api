@@ -37,15 +37,14 @@ export class DataConverter {
 	}
 
 	public static sanitizeString(str: string, attribute: string): string {
-		const srtRgx = str
-			.replaceAll("\"", "")
-			.replaceAll("'", "")
-			.replaceAll("/", "")
+		str = str
+			.toString()
+			.replace(/"/g, "")
+			.replace(/'/g, "")
+			.replace(/\//g, "")
 			.trim();
 
-		return attribute === "key"
-			? srtRgx.replaceAll(" ", "").toLowerCase()
-			: srtRgx;
+		return attribute === "key" ? str.replace(/ /g, "").toLowerCase() : str;
 	}
 
 	public static converterStringToArray(

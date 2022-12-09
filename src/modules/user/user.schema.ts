@@ -1,6 +1,6 @@
 import * as yup from "yup";
-import { HttpErrorHandler } from "../../core/errors/httpErrorHandler";
-import { UserLoginRequest } from "./user.interface";
+import { Exception } from "../../core/error/exception";
+import { UserLoginRequest } from "./user.type";
 
 export class UserSchema {
 	public static async validate(user: UserLoginRequest) {
@@ -17,12 +17,7 @@ export class UserSchema {
 		});
 
 		return schema.validate(user).catch((error) => {
-			throw new Error(
-				HttpErrorHandler.targetError({
-					message: error.message,
-					status: 401,
-				}),
-			);
+			throw new Exception(error.message, 401);
 		});
 	}
 }

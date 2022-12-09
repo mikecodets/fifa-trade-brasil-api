@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { Request, Response } from "express";
-import { UserLoginResponse } from "./user.interface";
 import { UserService } from "./user.service";
+import { UserLoginResponse } from "./user.type";
 
 export class UserController {
 	public static async create(
@@ -17,7 +17,7 @@ export class UserController {
 	}
 
 	public static async findMany(
-		request: Request,
+		_: Request,
 		response: Response,
 	): Promise<Response<User>> {
 		const users = await UserService.findMany();

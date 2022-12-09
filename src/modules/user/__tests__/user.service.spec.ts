@@ -11,12 +11,8 @@ describe("UserService", () => {
 				...user,
 				acceptTermsAndConditions: false,
 			}).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "User must accept terms",
-						status: 401,
-					}),
-				);
+				expect(error.message).toEqual("User must accept terms");
+				expect(error.status).toEqual(401);
 			});
 		});
 
@@ -26,12 +22,8 @@ describe("UserService", () => {
 			prismaMock.user.findUnique.mockResolvedValue(user);
 
 			await UserService.create(user).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "User already exists",
-						status: 401,
-					}),
-				);
+				expect(error.message).toEqual("User already exists");
+				expect(error.status).toEqual(401);
 			});
 		});
 
@@ -43,12 +35,8 @@ describe("UserService", () => {
 			});
 
 			await UserService.create(user).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "failed to save user",
-						status: 400,
-					}),
-				);
+				expect(error.message).toEqual("failed to save user");
+				expect(error.status).toEqual(400);
 			});
 		});
 
@@ -72,12 +60,8 @@ describe("UserService", () => {
 			});
 
 			await UserService.findMany().catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "failed to return users",
-						status: 400,
-					}),
-				);
+				expect(error.message).toEqual("failed to return users");
+				expect(error.status).toEqual(400);
 			});
 		});
 
@@ -103,12 +87,8 @@ describe("UserService", () => {
 			});
 
 			await UserService.login({ email, password }).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "failed to return user",
-						status: 400,
-					}),
-				);
+				expect(error.message).toEqual("failed to return user");
+				expect(error.status).toEqual(400);
 			});
 		});
 
@@ -118,12 +98,8 @@ describe("UserService", () => {
 			prismaMock.user.findUnique.mockResolvedValue(null);
 
 			await UserService.login({ email, password }).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "invalid credentials",
-						status: 401,
-					}),
-				);
+				expect(error.message).toEqual("invalid credentials");
+				expect(error.status).toEqual(401);
 			});
 		});
 
@@ -136,12 +112,8 @@ describe("UserService", () => {
 				email: user.email,
 				password: "test-false",
 			}).catch((error) => {
-				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "invalid credentials",
-						status: 401,
-					}),
-				);
+				expect(error.message).toEqual("invalid credentials");
+				expect(error.status).toEqual(401);
 			});
 		});
 
@@ -158,11 +130,9 @@ describe("UserService", () => {
 				password: "test-true",
 			}).catch((error) => {
 				expect(error.message).toEqual(
-					JSON.stringify({
-						message: "User disabled, contact your administrator",
-						status: 401,
-					}),
+					"User disabled, contact your administrator",
 				);
+				expect(error.status).toEqual(401);
 			});
 		});
 

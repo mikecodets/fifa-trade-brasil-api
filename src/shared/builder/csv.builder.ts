@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Address, Customer, Payment, Supporter } from "@prisma/client";
-import { ICSVFile } from "../../modules/csv/csv.interface";
+import { ICSVFile } from "../../modules/csv/csv.type";
 
 export class CSVFileBuilder {
 	private id: string;

@@ -9,12 +9,8 @@ describe("UserSchema", () => {
 			...user,
 			email: "",
 		}).catch((error) => {
-			expect(error.message).toEqual(
-				JSON.stringify({
-					message: "The email is a required",
-					status: 401,
-				}),
-			);
+			expect(error.message).toEqual("The email is a required");
+			expect(error.status).toEqual(401);
 		});
 	});
 
@@ -25,12 +21,8 @@ describe("UserSchema", () => {
 			...user,
 			email: "invalid-mail",
 		}).catch((error) => {
-			expect(error.message).toEqual(
-				JSON.stringify({
-					message: "Email must be valid",
-					status: 401,
-				}),
-			);
+			expect(error.message).toEqual("Email must be valid");
+			expect(error.status).toEqual(401);
 		});
 	});
 
@@ -41,12 +33,8 @@ describe("UserSchema", () => {
 			...user,
 			password: "",
 		}).catch((error) => {
-			expect(error.message).toEqual(
-				JSON.stringify({
-					message: "The password is a required",
-					status: 401,
-				}),
-			);
+			expect(error.message).toEqual("The password is a required");
+			expect(error.status).toEqual(401);
 		});
 	});
 
@@ -58,11 +46,9 @@ describe("UserSchema", () => {
 			password: "123456",
 		}).catch((error) => {
 			expect(error.message).toEqual(
-				JSON.stringify({
-					message: "Password must be at least 8 characters long",
-					status: 401,
-				}),
+				"Password must be at least 8 characters long",
 			);
+			expect(error.status).toEqual(401);
 		});
 	});
 
@@ -74,11 +60,9 @@ describe("UserSchema", () => {
 			password: "12345678910111213141516",
 		}).catch((error) => {
 			expect(error.message).toEqual(
-				JSON.stringify({
-					message: "Password must be a maximum of 16 characters",
-					status: 401,
-				}),
+				"Password must be a maximum of 16 characters",
 			);
+			expect(error.status).toEqual(401);
 		});
 	});
 });

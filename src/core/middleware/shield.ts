@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { JwtPayload, verify } from "jsonwebtoken";
 import prisma from "../../client";
 import { JWT_SECRET } from "../../config";
-import { HttpErrorHandler } from "../errors/httpErrorHandler";
+import { Exception } from "../error/exception";
 
 export class Auth {
 	public static async user(
@@ -25,12 +25,7 @@ export class Auth {
 			const subject = JSON.parse(decode);
 
 			if (!decode) {
-				throw new Error(
-					HttpErrorHandler.targetError({
-						message: "Unidentified decode",
-						status: 400,
-					}),
-				);
+				throw new Exception("Unidentified decode", 400);
 			}
 
 			request.userId = subject.userId;

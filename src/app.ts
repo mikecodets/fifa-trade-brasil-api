@@ -24,10 +24,7 @@ export class App {
 					"Access-Control-Allow-Headers",
 					"Authorization, Origin, X-Requested-With, Content-Type, Accept",
 				);
-				response.header(
-					"Access-Control-Allow-Methods",
-					"GET, PUT, POST, DELETE, PATCH, OPTIONS",
-				);
+				response.header("Access-Control-Allow-Methods", "*");
 
 				cors();
 				next();
